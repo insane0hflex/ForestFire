@@ -32,7 +32,9 @@ namespace ForestFire
             Random random = new Random();
 
             // do a regex test for valid input in the textbox here before the covert to double
-            double forestDensity = Convert.ToDouble(0.25);
+            double forestDensity = Convert.ToDouble(num_forestDensity.Value);
+
+
 
             //populate the forest with trees. a tree bit is set to true if it is less than a random double value
             for (int i = 0; i < forest.GetLength(0); i++)
@@ -51,6 +53,9 @@ namespace ForestFire
         }
 
 
+        /// <summary>
+        /// Draw a new bitmap to represent the forest.
+        /// </summary>
         private void DrawForestImage()
         {
             Bitmap newForestImage = new Bitmap(150,150);
@@ -74,6 +79,9 @@ namespace ForestFire
 
         }
 
+        /// <summary>
+        /// Populate Forest button click event
+        /// </summary>
         private void btn_populateForest_Click(object sender, EventArgs e)
         {
             ResetForest();
@@ -82,6 +90,9 @@ namespace ForestFire
         }
 
 
+        /// <summary>
+        /// resets the forest bool array to all false (black)
+        /// </summary>
         private void ResetForest()
         {
             for(int i = 0; i < forest.GetLength(0); i++)
@@ -91,6 +102,13 @@ namespace ForestFire
                     forest[i, j] = false;
                 }
             }
+        }
+
+
+        private void StartForestFire()
+        {
+
+
         }
 
     }
