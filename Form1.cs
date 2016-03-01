@@ -26,15 +26,14 @@ namespace ForestFire
         }
 
 
-
+        /// <summary>
+        /// Populate the forest array by setting a cell to true if is below the indicated forest population density
+        /// </summary>
         private void PopulateForestWithTrees()
         {
             Random random = new Random();
 
-            // do a regex test for valid input in the textbox here before the covert to double
             double forestDensity = Convert.ToDouble(num_forestDensity.Value);
-
-
 
             //populate the forest with trees. a tree bit is set to true if it is less than a random double value
             for (int i = 0; i < forest.GetLength(0); i++)
@@ -47,9 +46,7 @@ namespace ForestFire
                         forest[i, j] = true;
                     }
                 }
-
             }
-
         }
 
 
@@ -104,7 +101,11 @@ namespace ForestFire
             }
         }
 
+#warning wher does the fire start? where a user clicks?
 
+        /// <summary>
+        /// Start the forest fire - check for adjacent (not diagonal) forest nodes and burn them in each timestep
+        /// </summary>
         private void StartForestFire()
         {
 
