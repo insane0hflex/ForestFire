@@ -37,15 +37,15 @@
             // 
             // img_forest
             // 
-            this.img_forest.Location = new System.Drawing.Point(12, 12);
+            this.img_forest.Location = new System.Drawing.Point(144, 12);
             this.img_forest.Name = "img_forest";
-            this.img_forest.Size = new System.Drawing.Size(150, 150);
+            this.img_forest.Size = new System.Drawing.Size(600, 600);
             this.img_forest.TabIndex = 0;
             this.img_forest.TabStop = false;
             // 
             // btn_populateForest
             // 
-            this.btn_populateForest.Location = new System.Drawing.Point(172, 12);
+            this.btn_populateForest.Location = new System.Drawing.Point(12, 12);
             this.btn_populateForest.Name = "btn_populateForest";
             this.btn_populateForest.Size = new System.Drawing.Size(108, 23);
             this.btn_populateForest.TabIndex = 1;
@@ -61,7 +61,7 @@
             0,
             0,
             65536});
-            this.num_forestDensity.Location = new System.Drawing.Point(168, 56);
+            this.num_forestDensity.Location = new System.Drawing.Point(8, 56);
             this.num_forestDensity.Maximum = new decimal(new int[] {
             1,
             0,
@@ -75,12 +75,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.ClientSize = new System.Drawing.Size(764, 630);
             this.Controls.Add(this.num_forestDensity);
             this.Controls.Add(this.btn_populateForest);
             this.Controls.Add(this.img_forest);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Forest Fire Model";
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_forestDensity)).EndInit();
             this.ResumeLayout(false);
