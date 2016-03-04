@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,8 +13,16 @@ namespace ForestFire
     public partial class Form1 : Form
     {
 
-        //2D array of trees in the forest
-        private bool[,] forest = new bool[150, 150];
+
+        //Tree values
+        enum Tree
+        {
+            None = 0,
+            Alive = 1,
+            OnFire = 2
+        }
+
+        private Tree[,] forest = new Tree[150, 150];
 
 
         public Form1()
@@ -43,7 +51,7 @@ namespace ForestFire
                 {
                     if (random.NextDouble() < forestDensity)
                     {
-                        forest[i, j] = true;
+                        forest[i, j] = Tree.Alive;
                     }
                 }
             }
@@ -53,7 +61,7 @@ namespace ForestFire
         /// <summary>
         /// Draw a new bitmap to represent the forest.
         /// </summary>
-        private void DrawForestImage()
+        private void DrawForest()
         {
             Bitmap newForestImage = new Bitmap(150,150);
 
@@ -64,7 +72,14 @@ namespace ForestFire
 
                 for (int j = 0; j < forest.GetLength(1); j++)
                 {
-                    if (forest[i, j])
+                    if (forest[0, j] == Tree.Alive)
+                    {
+                        forest[0, j] = Tree.OnFire;
+                        newForestImage.SetPixel(i, j, Color.Red);
+                    }
+
+
+                    if (forest[i, j] == Tree.Alive)
                     {
                         newForestImage.SetPixel(i, j, Color.Green);
                     }
@@ -76,6 +91,9 @@ namespace ForestFire
 
         }
 
+
+
+
         /// <summary>
         /// Populate Forest button click event
         /// </summary>
@@ -83,7 +101,7 @@ namespace ForestFire
         {
             ResetForest();
             PopulateForestWithTrees();
-            DrawForestImage();
+            DrawForest();
         }
 
 
@@ -96,12 +114,10 @@ namespace ForestFire
             {
                 for (int j = 0; j < forest.GetLength(1); j++)
                 {
-                    forest[i, j] = false;
+                    forest[i, j] = Tree.None;
                 }
             }
         }
-
-#warning wher does the fire start? where a user clicks?
 
         /// <summary>
         /// Start the forest fire - check for adjacent (not diagonal) forest nodes and burn them in each timestep
