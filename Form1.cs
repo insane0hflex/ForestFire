@@ -29,7 +29,6 @@ namespace ForestFire
         {
             InitializeComponent();
 
-            img_forest.Image = new Bitmap(150, 150);
             img_forest.BackColor = Color.Black;
         }
 
@@ -65,23 +64,36 @@ namespace ForestFire
         {
             Bitmap newForestImage = new Bitmap(150,150);
 
+            var treeBrush = new SolidBrush(Color.Green);
+            var fireBrush = new SolidBrush(Color.Red);
+            Graphics graphics;
 
+            graphics = CreateGraphics();
+
+
+            //graphics = (Graphics)img_forest.Image;
+            
             //color pixels green for cells that have trees
             for (int i = 0; i < forest.GetLength(0); i++)
             {
 
                 for (int j = 0; j < forest.GetLength(1); j++)
                 {
+                    var tree = new Rectangle(i * 4, j * 4, 4, 4);
+
                     if (forest[0, j] == Tree.Alive)
                     {
                         forest[0, j] = Tree.OnFire;
-                        newForestImage.SetPixel(i, j, Color.Red);
+                        //newForestImage.SetPixel(i, j, Color.Red);
+                        graphics.FillRectangle(fireBrush, tree);
+
                     }
 
 
                     if (forest[i, j] == Tree.Alive)
                     {
-                        newForestImage.SetPixel(i, j, Color.Green);
+                        graphics.FillRectangle(treeBrush, tree);
+                        //newForestImage.SetPixel(i, j, Color.Green);
                     }
                 }
 
