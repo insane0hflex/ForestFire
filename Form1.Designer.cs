@@ -42,6 +42,7 @@
             this.img_forest.Size = new System.Drawing.Size(600, 600);
             this.img_forest.TabIndex = 0;
             this.img_forest.TabStop = false;
+            this.img_forest.Paint += new System.Windows.Forms.PaintEventHandler(this.img_forest_Paint);
             // 
             // btn_populateForest
             // 

@@ -14,7 +14,7 @@ namespace ForestFire
     {
 
 
-        //Tree values
+        //Tree "datatype"
         enum Tree
         {
             None = 0,
@@ -24,12 +24,19 @@ namespace ForestFire
 
         private Tree[,] forest = new Tree[150, 150];
 
+        //brushes to color the trees (rectangles)
+        SolidBrush burntTreeBrush = new SolidBrush(Color.Black);
+        SolidBrush aliveTreeBrush = new SolidBrush(Color.Green);
+        SolidBrush onFireTreeBrush = new SolidBrush(Color.Red);
+
 
         public Form1()
         {
             InitializeComponent();
 
-            img_forest.BackColor = Color.Black;
+            //set the number control to a default value
+            num_forestDensity.Value = (decimal)0.5;
+
         }
 
 
@@ -38,7 +45,7 @@ namespace ForestFire
         /// </summary>
         private void PopulateForestWithTrees()
         {
-            Random random = new Random();
+            var random = new Random();
 
             double forestDensity = Convert.ToDouble(num_forestDensity.Value);
 
@@ -58,67 +65,20 @@ namespace ForestFire
 
 
         /// <summary>
-        /// Draw a new bitmap to represent the forest.
-        /// </summary>
-        private void DrawForest()
-        {
-            Bitmap newForestImage = new Bitmap(150,150);
-
-            var treeBrush = new SolidBrush(Color.Green);
-            var fireBrush = new SolidBrush(Color.Red);
-            Graphics graphics;
-
-            graphics = CreateGraphics();
-
-
-            //graphics = (Graphics)img_forest.Image;
-            
-            //color pixels green for cells that have trees
-            for (int i = 0; i < forest.GetLength(0); i++)
-            {
-
-                for (int j = 0; j < forest.GetLength(1); j++)
-                {
-                    var tree = new Rectangle(i * 4, j * 4, 4, 4);
-
-                    if (forest[0, j] == Tree.Alive)
-                    {
-                        forest[0, j] = Tree.OnFire;
-                        //newForestImage.SetPixel(i, j, Color.Red);
-                        graphics.FillRectangle(fireBrush, tree);
-
-                    }
-
-
-                    if (forest[i, j] == Tree.Alive)
-                    {
-                        graphics.FillRectangle(treeBrush, tree);
-                        //newForestImage.SetPixel(i, j, Color.Green);
-                    }
-                }
-
-            }
-
-            img_forest.Image = newForestImage;
-
-        }
-
-
-
-
-        /// <summary>
         /// Populate Forest button click event
         /// </summary>
         private void btn_populateForest_Click(object sender, EventArgs e)
         {
             ResetForest();
             PopulateForestWithTrees();
-            DrawForest();
+
+            // pictureBox Invalidate() triggers the paint method
+            img_forest.Invalidate();
         }
 
 
         /// <summary>
-        /// resets the forest bool array to all false (black)
+        /// resets the forest Tree array to be all no trees (black)
         /// </summary>
         private void ResetForest()
         {
@@ -140,5 +100,40 @@ namespace ForestFire
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void img_forest_Paint(object sender, PaintEventArgs e)
+        {
+            //graphics = (Graphics)img_forest.Image;
+
+            //color pixels green for cells that have trees
+            for (int i = 0; i < forest.GetLength(0); i++)
+            {
+
+                for (int j = 0; j < forest.GetLength(1); j++)
+                {
+                    var tree = new Rectangle(i * 4, j * 4, 4, 4);
+
+                    if (forest[0, j] == Tree.Alive)
+                    {
+                        forest[0, j] = Tree.OnFire;
+                        //newForestImage.SetPixel(i, j, Color.Red);
+                        e.Graphics.FillRectangle(onFireTreeBrush, tree);
+
+                    }
+
+
+                    if (forest[i, j] == Tree.Alive)
+                    {
+                        e.Graphics.FillRectangle(aliveTreeBrush, tree);
+                        //newForestImage.SetPixel(i, j, Color.Green);
+                    }
+                }
+
+            }
+        }
     }
 }
