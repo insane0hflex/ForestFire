@@ -19,7 +19,8 @@ namespace ForestFire
         {
             None = 0,
             Alive = 1,
-            OnFire = 2
+            OnFire = 2,
+            Burnt = 3
         }
 
         private Tree[,] forest = new Tree[150, 150];
@@ -92,6 +93,7 @@ namespace ForestFire
             }
         }
 
+
         /// <summary>
         /// Start the forest fire - check for adjacent (not diagonal) forest nodes and burn them in each timestep
         /// </summary>
@@ -108,7 +110,7 @@ namespace ForestFire
         }
 
         /// <summary>
-        /// 
+        /// On an Invalidate event - triggers the repaint
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -132,7 +134,7 @@ namespace ForestFire
                         //adjacent trees need to be set on fire
                         if(forest[i, j] == Tree.Alive)
                         {
-                            var burningTree = new Rectangle(i * 8, j * 8, 4, 4);
+                            var burningTree = new Rectangle(i * 4, j * 4, 4, 4);
 
                             forest[i, j] = Tree.OnFire;
                             e.Graphics.FillRectangle(onFireTreeBrush, burningTree);
@@ -158,6 +160,12 @@ namespace ForestFire
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_startFire_Click(object sender, EventArgs e)
         {
             img_forest.Invalidate();
