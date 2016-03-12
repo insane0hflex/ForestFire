@@ -132,12 +132,21 @@ namespace ForestFire
                         e.Graphics.FillRectangle(burntTreeBrush, tree);
                         
                         //adjacent trees need to be set on fire
-                        if(forest[i, j] == Tree.Alive)
+                        //burn right tree
+                        if(i < 149 && j < 149)
                         {
-                            var burningTree = new Rectangle(i * 4, j * 4, 4, 4);
+                            //burn right
+                            if (forest[i + 1, j] == Tree.Alive)
+                            {
+                                forest[i + 1, j] = Tree.OnFire;
 
-                            forest[i, j] = Tree.OnFire;
-                            e.Graphics.FillRectangle(onFireTreeBrush, burningTree);
+                            }
+
+                            //burn down
+                            if (forest[i, j + 1] == Tree.Alive)
+                            {
+                                forest[i, j + 1] = Tree.OnFire;
+                            }
 
                         }
 
