@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.img_forest = new System.Windows.Forms.PictureBox();
             this.btn_populateForest = new System.Windows.Forms.Button();
             this.num_forestDensity = new System.Windows.Forms.NumericUpDown();
             this.btn_startFire = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.timer_burn = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_forestDensity)).BeginInit();
             this.SuspendLayout();
@@ -93,6 +95,11 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Forest Density";
             // 
+            // timer_burn
+            // 
+            this.timer_burn.Interval = 20;
+            this.timer_burn.Tick += new System.EventHandler(this.timer_burn_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -119,6 +126,7 @@
         private System.Windows.Forms.NumericUpDown num_forestDensity;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_startFire;
+        private System.Windows.Forms.Timer timer_burn;
     }
 }
 
