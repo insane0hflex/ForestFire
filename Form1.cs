@@ -26,6 +26,7 @@ namespace ForestFire
         private Tree[,] forest = new Tree[150, 150];
 
         //brushes to color the trees (rectangles)
+        SolidBrush noTreeBrush = new SolidBrush(Color.PaleGoldenrod);
         SolidBrush burntTreeBrush = new SolidBrush(Color.Black);
         SolidBrush aliveTreeBrush = new SolidBrush(Color.Green);
         SolidBrush onFireTreeBrush = new SolidBrush(Color.Red);
@@ -112,40 +113,24 @@ namespace ForestFire
                 {
                     var tree = new Rectangle(i * 4, j * 4, 4, 4);
 
-                    //if (forest[i, j] == Tree.OnFire)
-                    //{
-                    //    //make current tree burnt
-                    //    e.Graphics.FillRectangle(burntTreeBrush, tree);
-                        
-                    //    //adjacent trees need to be set on fire
-                    //    //burn right tree
-                    //    if(i < 149 && j < 149)
-                    //    {
-                    //        //burn right
-                    //        if (forest[i + 1, j] == Tree.Alive)
-                    //        {
-                    //            forest[i + 1, j] = Tree.OnFire;
-
-                    //        }
-
-                    //        //burn down
-                    //        if (forest[i, j + 1] == Tree.Alive)
-                    //        {
-                    //            forest[i, j + 1] = Tree.OnFire;
-                    //        }
-
-                    //    }
-
-                    //}
                     //initially all trees on the left side are "on fire" - so if the tree is alive, now its onfire.
                     if (forest[0, j] == Tree.Alive)
                     {
                         forest[0, j] = Tree.OnFire;
                         e.Graphics.FillRectangle(onFireTreeBrush, tree);
                     }
-                    else if (forest[i, j] == Tree.Alive)
+
+                    if (forest[i, j] == Tree.Alive)
                     {
                         e.Graphics.FillRectangle(aliveTreeBrush, tree);
+                    }
+                    else if (forest[i, j] == Tree.None)
+                    {
+                        e.Graphics.FillRectangle(noTreeBrush, tree);
+                    }
+                    else if (forest[i, j] == Tree.OnFire)
+                    {
+                        e.Graphics.FillRectangle(burntTreeBrush, tree);
                     }
 
 
@@ -160,8 +145,9 @@ namespace ForestFire
         /// </summary>
         /// <returns>false if forest still has burnable trees.
         /// true if forest is done burning</returns>
-        private bool BurnForest()
+        private bool IsForestBurning()
         {
+            #warning maybe just make this return void
             bool canBurn = false;
 
             for (int i = 0; i < forest.GetLength(0); i++)
@@ -180,7 +166,6 @@ namespace ForestFire
                                 forest[i, j - 1] = Tree.OnFire;
                             }
                         }
-
 
                         // burn right
                         if (i < (forest.GetLength(0)-1))
@@ -222,23 +207,13 @@ namespace ForestFire
             {
                 return false;
             }
-
-            for(int i = 0; i < forest.GetLength(0); i++)
+            else
             {
-                for (int j = 0; j < forest.GetLength(1); j++)
-                {
-                    //if(forest[i,j] == Tree.OnFire)
-                    //{
-                    //    forest[i, j] = Tree.Burnt;
-                    //}
-#warning - NEWFIRE set to FIRE here? why
+                return true;
 
-                }
             }
 
 
-
-            return true;
         }
 
         /// <summary>
@@ -246,7 +221,9 @@ namespace ForestFire
         /// </summary>
         private void btn_startFire_Click(object sender, EventArgs e)
         {
-            img_forest.Invalidate();
+            //trigger redraw
+            //img_forest.Invalidate();
+            timer_burn.Interval = 20;
             timer_burn.Enabled = true;
         }
 
@@ -255,12 +232,14 @@ namespace ForestFire
         /// </summary>
         private void timer_burn_Tick(object sender, EventArgs e)
         {
-            bool isForestBurning = BurnForest();
+            bool isForestBurning = IsForestBurning();
+
             img_forest.Invalidate();
 
             //turn off timer when forest is done burning
             if(!isForestBurning)
             {
+                MessageBox.Show("Burn complete!");
                 timer_burn.Enabled = false;
             }
         }

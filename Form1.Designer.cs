@@ -35,6 +35,7 @@
             this.btn_startFire = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.timer_burn = new System.Windows.Forms.Timer(this.components);
+            this.chkbx_wind = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_forestDensity)).BeginInit();
             this.SuspendLayout();
@@ -100,11 +101,22 @@
             this.timer_burn.Interval = 20;
             this.timer_burn.Tick += new System.EventHandler(this.timer_burn_Tick);
             // 
+            // chkbx_wind
+            // 
+            this.chkbx_wind.AutoSize = true;
+            this.chkbx_wind.Location = new System.Drawing.Point(15, 157);
+            this.chkbx_wind.Name = "chkbx_wind";
+            this.chkbx_wind.Size = new System.Drawing.Size(115, 17);
+            this.chkbx_wind.TabIndex = 5;
+            this.chkbx_wind.Text = "Enable Right Wind";
+            this.chkbx_wind.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 630);
+            this.Controls.Add(this.chkbx_wind);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_startFire);
             this.Controls.Add(this.num_forestDensity);
@@ -127,6 +139,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_startFire;
         private System.Windows.Forms.Timer timer_burn;
+        private System.Windows.Forms.CheckBox chkbx_wind;
     }
 }
 
