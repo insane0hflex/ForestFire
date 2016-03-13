@@ -39,7 +39,7 @@ namespace ForestFire
 
             //set the number control to a default value
             num_forestDensity.Value = (decimal)0.5;
-
+            
         }
 
 
@@ -73,6 +73,7 @@ namespace ForestFire
         private void btn_populateForest_Click(object sender, EventArgs e)
         {
             timer_burn.Enabled = false;
+            //MessageBox.Show("Creating a new forest");
             ResetForest();
             PopulateForestWithTrees();
 
@@ -141,7 +142,7 @@ namespace ForestFire
         }
 
         /// <summary>
-        /// 
+        /// Starts the forest burning and is used by the timer to control the forest burning time increments
         /// </summary>
         /// <returns>false if forest still has burnable trees.
         /// true if forest is done burning</returns>
@@ -195,7 +196,39 @@ namespace ForestFire
                             }
                         }
 
-                        
+                        //Wind check
+                        if(chkbx_wind.Checked)
+                        {
+                            //see the next array element/cell
+                            if(i < forest.GetLength(0) - 2)
+                            {
+                                var windSetOnFire = new Random();
+
+                                if(windSetOnFire.NextDouble() < 0.5)
+                                {
+                                    if(forest[i+2, j] == Tree.Alive)
+                                    {
+                                        forest[i + 2, j] = Tree.OnFire;
+                                    }
+                                }
+
+                            }
+
+                            //see the next->next array element cell (+ 1 + 1 + 1)
+                            if(i < forest.GetLength(1) - 3)
+                            {
+                                var windSetOnFire = new Random();
+
+                                if(windSetOnFire.NextDouble() < 0.25)
+                                {
+                                    if (forest[i + 3, j] == Tree.Alive)
+                                    {
+                                        forest[i + 3, j] = Tree.OnFire;
+                                    }
+                                }
+                            }
+                        }
+
 
 
                     }
@@ -223,7 +256,7 @@ namespace ForestFire
         {
             //trigger redraw
             //img_forest.Invalidate();
-            timer_burn.Interval = 20;
+            //timer_burn.Interval = (int) numeric_timeToBurn.Value;
             timer_burn.Enabled = true;
         }
 

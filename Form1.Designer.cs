@@ -36,8 +36,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timer_burn = new System.Windows.Forms.Timer(this.components);
             this.chkbx_wind = new System.Windows.Forms.CheckBox();
+            this.numeric_timeToBurn = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_forestDensity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_timeToBurn)).BeginInit();
             this.SuspendLayout();
             // 
             // img_forest
@@ -63,10 +67,10 @@
             // 
             this.num_forestDensity.DecimalPlaces = 2;
             this.num_forestDensity.Increment = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            65536});
+            131072});
             this.num_forestDensity.Location = new System.Drawing.Point(12, 72);
             this.num_forestDensity.Maximum = new decimal(new int[] {
             1,
@@ -79,7 +83,7 @@
             // 
             // btn_startFire
             // 
-            this.btn_startFire.Location = new System.Drawing.Point(12, 110);
+            this.btn_startFire.Location = new System.Drawing.Point(12, 168);
             this.btn_startFire.Name = "btn_startFire";
             this.btn_startFire.Size = new System.Drawing.Size(108, 23);
             this.btn_startFire.TabIndex = 3;
@@ -104,18 +108,57 @@
             // chkbx_wind
             // 
             this.chkbx_wind.AutoSize = true;
-            this.chkbx_wind.Location = new System.Drawing.Point(15, 157);
+            this.chkbx_wind.Location = new System.Drawing.Point(15, 215);
             this.chkbx_wind.Name = "chkbx_wind";
             this.chkbx_wind.Size = new System.Drawing.Size(115, 17);
             this.chkbx_wind.TabIndex = 5;
             this.chkbx_wind.Text = "Enable Right Wind";
             this.chkbx_wind.UseVisualStyleBackColor = true;
             // 
+            // numeric_timeToBurn
+            // 
+            this.numeric_timeToBurn.DecimalPlaces = 2;
+            this.numeric_timeToBurn.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numeric_timeToBurn.Location = new System.Drawing.Point(12, 128);
+            this.numeric_timeToBurn.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numeric_timeToBurn.Name = "numeric_timeToBurn";
+            this.numeric_timeToBurn.Size = new System.Drawing.Size(108, 20);
+            this.numeric_timeToBurn.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "label2";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 109);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Time Per Burn";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 630);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.numeric_timeToBurn);
             this.Controls.Add(this.chkbx_wind);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_startFire);
@@ -126,6 +169,7 @@
             this.Text = "Forest Fire Model";
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_forestDensity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_timeToBurn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,6 +184,9 @@
         private System.Windows.Forms.Button btn_startFire;
         private System.Windows.Forms.Timer timer_burn;
         private System.Windows.Forms.CheckBox chkbx_wind;
+        private System.Windows.Forms.NumericUpDown numeric_timeToBurn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 
