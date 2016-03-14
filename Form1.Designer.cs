@@ -37,11 +37,13 @@
             this.timer_burn = new System.Windows.Forms.Timer(this.components);
             this.chkbx_wind = new System.Windows.Forms.CheckBox();
             this.numeric_timeToBurn = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.numeric_windPercentage = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_forestDensity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_timeToBurn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_windPercentage)).BeginInit();
             this.SuspendLayout();
             // 
             // img_forest
@@ -55,7 +57,7 @@
             // 
             // btn_populateForest
             // 
-            this.btn_populateForest.Location = new System.Drawing.Point(12, 12);
+            this.btn_populateForest.Location = new System.Drawing.Point(12, 69);
             this.btn_populateForest.Name = "btn_populateForest";
             this.btn_populateForest.Size = new System.Drawing.Size(108, 23);
             this.btn_populateForest.TabIndex = 1;
@@ -71,7 +73,7 @@
             0,
             0,
             131072});
-            this.num_forestDensity.Location = new System.Drawing.Point(12, 72);
+            this.num_forestDensity.Location = new System.Drawing.Point(12, 41);
             this.num_forestDensity.Maximum = new decimal(new int[] {
             1,
             0,
@@ -94,7 +96,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 56);
+            this.label1.Location = new System.Drawing.Point(12, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 4;
@@ -108,7 +110,7 @@
             // chkbx_wind
             // 
             this.chkbx_wind.AutoSize = true;
-            this.chkbx_wind.Location = new System.Drawing.Point(15, 215);
+            this.chkbx_wind.Location = new System.Drawing.Point(7, 215);
             this.chkbx_wind.Name = "chkbx_wind";
             this.chkbx_wind.Size = new System.Drawing.Size(115, 17);
             this.chkbx_wind.TabIndex = 5;
@@ -117,30 +119,30 @@
             // 
             // numeric_timeToBurn
             // 
-            this.numeric_timeToBurn.DecimalPlaces = 2;
             this.numeric_timeToBurn.Increment = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
-            65536});
+            0});
             this.numeric_timeToBurn.Location = new System.Drawing.Point(12, 128);
             this.numeric_timeToBurn.Maximum = new decimal(new int[] {
-            1,
+            1000,
+            0,
+            0,
+            0});
+            this.numeric_timeToBurn.Minimum = new decimal(new int[] {
+            10,
             0,
             0,
             0});
             this.numeric_timeToBurn.Name = "numeric_timeToBurn";
             this.numeric_timeToBurn.Size = new System.Drawing.Size(108, 20);
             this.numeric_timeToBurn.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "label2";
+            this.numeric_timeToBurn.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // label3
             // 
@@ -151,13 +153,51 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Time Per Burn";
             // 
+            // numeric_windPercentage
+            // 
+            this.numeric_windPercentage.DecimalPlaces = 2;
+            this.numeric_windPercentage.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numeric_windPercentage.Location = new System.Drawing.Point(7, 261);
+            this.numeric_windPercentage.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numeric_windPercentage.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numeric_windPercentage.Name = "numeric_windPercentage";
+            this.numeric_windPercentage.Size = new System.Drawing.Size(120, 20);
+            this.numeric_windPercentage.TabIndex = 9;
+            this.numeric_windPercentage.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 245);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(90, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Wind Percentage";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 630);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.numeric_windPercentage);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.numeric_timeToBurn);
             this.Controls.Add(this.chkbx_wind);
             this.Controls.Add(this.label1);
@@ -170,6 +210,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_forestDensity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_timeToBurn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_windPercentage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,8 +226,9 @@
         private System.Windows.Forms.Timer timer_burn;
         private System.Windows.Forms.CheckBox chkbx_wind;
         private System.Windows.Forms.NumericUpDown numeric_timeToBurn;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown numeric_windPercentage;
     }
 }
 

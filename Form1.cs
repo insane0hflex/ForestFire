@@ -39,6 +39,10 @@ namespace ForestFire
 
             //set the number control to a default value
             num_forestDensity.Value = (decimal)0.5;
+
+            numeric_timeToBurn.Value = (decimal)20;
+
+            numeric_windPercentage.Value = (decimal)0.25;
             
         }
 
@@ -73,6 +77,7 @@ namespace ForestFire
         private void btn_populateForest_Click(object sender, EventArgs e)
         {
             timer_burn.Enabled = false;
+
             //MessageBox.Show("Creating a new forest");
             ResetForest();
             PopulateForestWithTrees();
@@ -131,9 +136,14 @@ namespace ForestFire
                     }
                     else if (forest[i, j] == Tree.OnFire)
                     {
+                        //e.Graphics.FillRectangle(burntTreeBrush, tree);
+                        e.Graphics.FillRectangle(onFireTreeBrush, tree);
+                        //forest[i, j] = Tree.Burnt;
+                    }
+                    else if (forest[i,j] == Tree.Burnt)
+                    {
                         e.Graphics.FillRectangle(burntTreeBrush, tree);
                     }
-
 
 
                 }
@@ -199,12 +209,15 @@ namespace ForestFire
                         //Wind check
                         if(chkbx_wind.Checked)
                         {
+                            //get numeric up_down wind value
+                            double windPercentage = Convert.ToDouble(numeric_windPercentage.Value);
+
                             //see the next array element/cell
-                            if(i < forest.GetLength(0) - 2)
+                            if (i < forest.GetLength(0) - 2)
                             {
                                 var windSetOnFire = new Random();
 
-                                if(windSetOnFire.NextDouble() < 0.5)
+                                if(windSetOnFire.NextDouble() < windPercentage)
                                 {
                                     if(forest[i+2, j] == Tree.Alive)
                                     {
@@ -219,7 +232,7 @@ namespace ForestFire
                             {
                                 var windSetOnFire = new Random();
 
-                                if(windSetOnFire.NextDouble() < 0.25)
+                                if(windSetOnFire.NextDouble() < (windPercentage/2))
                                 {
                                     if (forest[i + 3, j] == Tree.Alive)
                                     {
@@ -256,7 +269,7 @@ namespace ForestFire
         {
             //trigger redraw
             //img_forest.Invalidate();
-            //timer_burn.Interval = (int) numeric_timeToBurn.Value;
+            timer_burn.Interval = (int) numeric_timeToBurn.Value;
             timer_burn.Enabled = true;
         }
 
@@ -272,7 +285,7 @@ namespace ForestFire
             //turn off timer when forest is done burning
             if(!isForestBurning)
             {
-                MessageBox.Show("Burn complete!");
+                //MessageBox.Show("Burn complete!");
                 timer_burn.Enabled = false;
             }
         }
