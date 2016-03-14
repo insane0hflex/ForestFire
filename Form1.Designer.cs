@@ -85,7 +85,7 @@
             // 
             // btn_startFire
             // 
-            this.btn_startFire.Location = new System.Drawing.Point(12, 168);
+            this.btn_startFire.Location = new System.Drawing.Point(12, 246);
             this.btn_startFire.Name = "btn_startFire";
             this.btn_startFire.Size = new System.Drawing.Size(108, 23);
             this.btn_startFire.TabIndex = 3;
@@ -110,7 +110,7 @@
             // chkbx_wind
             // 
             this.chkbx_wind.AutoSize = true;
-            this.chkbx_wind.Location = new System.Drawing.Point(7, 215);
+            this.chkbx_wind.Location = new System.Drawing.Point(12, 164);
             this.chkbx_wind.Name = "chkbx_wind";
             this.chkbx_wind.Size = new System.Drawing.Size(115, 17);
             this.chkbx_wind.TabIndex = 5;
@@ -120,7 +120,7 @@
             // numeric_timeToBurn
             // 
             this.numeric_timeToBurn.Increment = new decimal(new int[] {
-            10,
+            20,
             0,
             0,
             0});
@@ -149,9 +149,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 109);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.Size = new System.Drawing.Size(96, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Time Per Burn";
+            this.label3.Text = "Time Per Burn (ms)";
             // 
             // numeric_windPercentage
             // 
@@ -161,7 +161,7 @@
             0,
             0,
             65536});
-            this.numeric_windPercentage.Location = new System.Drawing.Point(7, 261);
+            this.numeric_windPercentage.Location = new System.Drawing.Point(12, 210);
             this.numeric_windPercentage.Maximum = new decimal(new int[] {
             1,
             0,
@@ -173,7 +173,7 @@
             0,
             131072});
             this.numeric_windPercentage.Name = "numeric_windPercentage";
-            this.numeric_windPercentage.Size = new System.Drawing.Size(120, 20);
+            this.numeric_windPercentage.Size = new System.Drawing.Size(108, 20);
             this.numeric_windPercentage.TabIndex = 9;
             this.numeric_windPercentage.Value = new decimal(new int[] {
             1,
@@ -184,7 +184,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 245);
+            this.label2.Location = new System.Drawing.Point(14, 194);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 13);
             this.label2.TabIndex = 10;

@@ -15,35 +15,34 @@ namespace ForestFire
 
 
         //Tree "datatype"
-        enum Tree
+        public enum Tree
         {
             None = 0,
-            Alive = 1,
-            OnFire = 2,
-            Burnt = 3
+            Alive,
+            ToBurn,
+            OnFire,
+            Burnt 
         }
 
         private Tree[,] forest = new Tree[150, 150];
 
         //brushes to color the trees (rectangles)
-        SolidBrush noTreeBrush = new SolidBrush(Color.PaleGoldenrod);
+        SolidBrush noTreeBrush = new SolidBrush(Color.LightGoldenrodYellow);
         SolidBrush burntTreeBrush = new SolidBrush(Color.Black);
         SolidBrush aliveTreeBrush = new SolidBrush(Color.Green);
         SolidBrush onFireTreeBrush = new SolidBrush(Color.Red);
 
-        bool hasBeenSetup = false; //
+        private bool IsLeftColumnOnFire = true;
 
         public Form1()
         {
             InitializeComponent();
 
-            //set the number control to a default value
-            num_forestDensity.Value = (decimal)0.5;
+            //set some controls to a default value
+            num_forestDensity.Value = Convert.ToDecimal(0.5);
+            numeric_timeToBurn.Value = 20; //20ms default
+            numeric_windPercentage.Value = Convert.ToDecimal(0.25);
 
-            numeric_timeToBurn.Value = (decimal)20;
-
-            numeric_windPercentage.Value = (decimal)0.25;
-            
         }
 
 
@@ -119,7 +118,7 @@ namespace ForestFire
                 {
                     var tree = new Rectangle(i * 4, j * 4, 4, 4);
 
-                    //initially all trees on the left side are "on fire" - so if the tree is alive, now its onfire.
+                    //initially all trees on the left side are "on fire" - so if the tree is on the left and is alive, set it onfire.
                     if (forest[0, j] == Tree.Alive)
                     {
                         forest[0, j] = Tree.OnFire;
@@ -134,11 +133,25 @@ namespace ForestFire
                     {
                         e.Graphics.FillRectangle(noTreeBrush, tree);
                     }
+                    else if (forest[i,j] == Tree.ToBurn)
+                    {
+                        e.Graphics.FillRectangle(onFireTreeBrush, tree);
+                        forest[i, j] = Tree.OnFire;
+                    }
                     else if (forest[i, j] == Tree.OnFire)
                     {
                         //e.Graphics.FillRectangle(burntTreeBrush, tree);
                         e.Graphics.FillRectangle(onFireTreeBrush, tree);
                         //forest[i, j] = Tree.Burnt;
+
+                        //TODO: left side still remains as "burning"
+                        //maybe make a bool or timer.interval > 1 or something to set these left column trees to burnt
+
+                        //If the tree was on fire - set it to "Tree.Burnt" so that the tree is burnt and colored black next timestep
+                        if (i > 0)
+                        {
+                            forest[i, j] = Tree.Burnt;
+                        }
                     }
                     else if (forest[i,j] == Tree.Burnt)
                     {
@@ -156,25 +169,21 @@ namespace ForestFire
         /// </summary>
         /// <returns>false if forest still has burnable trees.
         /// true if forest is done burning</returns>
-        private bool IsForestBurning()
+        private void StartForestFire()
         {
-            #warning maybe just make this return void
-            bool canBurn = false;
-
             for (int i = 0; i < forest.GetLength(0); i++)
             {
                 for (int j = 0; j < forest.GetLength(1); j++)
                 {
                     if(forest[i,j] == Tree.OnFire)
                     {
-                        canBurn = true;
                         
                         //burn up
                         if(j > 0)
                         {
                             if(forest[i, j - 1] == Tree.Alive)
                             {
-                                forest[i, j - 1] = Tree.OnFire;
+                                forest[i, j - 1] = Tree.ToBurn;
                             }
                         }
 
@@ -183,7 +192,7 @@ namespace ForestFire
                         {
                             if(forest[i + 1, j] == Tree.Alive)
                             {
-                                forest[i + 1, j] = Tree.OnFire;
+                                forest[i + 1, j] = Tree.ToBurn;
                             }
                         }
 
@@ -192,7 +201,7 @@ namespace ForestFire
                         {
                             if (forest[i, j + 1] == Tree.Alive)
                             {
-                                forest[i, j + 1] = Tree.OnFire;
+                                forest[i, j + 1] = Tree.ToBurn;
                             }
                         }
 
@@ -202,7 +211,7 @@ namespace ForestFire
                         {
                             if (forest[i - 1, j] == Tree.Alive)
                             {
-                                forest[i - 1, j] = Tree.OnFire;
+                                forest[i - 1, j] = Tree.ToBurn;
                             }
                         }
 
@@ -213,81 +222,66 @@ namespace ForestFire
                             double windPercentage = Convert.ToDouble(numeric_windPercentage.Value);
 
                             //see the next array element/cell
+                            //this if check makes sure we dont array out of bounds
                             if (i < forest.GetLength(0) - 2)
                             {
                                 var windSetOnFire = new Random();
 
                                 if(windSetOnFire.NextDouble() < windPercentage)
                                 {
-                                    if(forest[i+2, j] == Tree.Alive)
+                                    if(forest[i + 2, j] == Tree.Alive)
                                     {
-                                        forest[i + 2, j] = Tree.OnFire;
+                                        forest[i + 2, j] = Tree.ToBurn;
                                     }
                                 }
 
                             }
 
                             //see the next->next array element cell (+ 1 + 1 + 1)
-                            if(i < forest.GetLength(1) - 3)
+                            //this if check makes sure we dont array out of bounds
+                            if (i < forest.GetLength(1) - 3)
                             {
                                 var windSetOnFire = new Random();
 
+                                //has half the chance as the previous wind check
                                 if(windSetOnFire.NextDouble() < (windPercentage/2))
                                 {
                                     if (forest[i + 3, j] == Tree.Alive)
                                     {
-                                        forest[i + 3, j] = Tree.OnFire;
+                                        forest[i + 3, j] = Tree.ToBurn;
                                     }
                                 }
                             }
                         }
-
-
-
                     }
-
                 }
             }
-
-            if(!canBurn)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-
-            }
-
-
         }
 
+
         /// <summary>
-        /// 
+        /// Timer interval based on the numeric_timeToBurn control's value
         /// </summary>
         private void btn_startFire_Click(object sender, EventArgs e)
         {
             //trigger redraw
-            //img_forest.Invalidate();
-            timer_burn.Interval = (int) numeric_timeToBurn.Value;
+            timer_burn.Interval = Convert.ToInt32(numeric_timeToBurn.Value);
             timer_burn.Enabled = true;
         }
 
+
         /// <summary>
-        /// 
+        /// invoke the StartForestFire() method which starts the burn.
+        /// This timer invokes the StartForestFire() method and a repaint to the image
         /// </summary>
         private void timer_burn_Tick(object sender, EventArgs e)
         {
-            bool isForestBurning = IsForestBurning();
 
+            StartForestFire();
+
+            //trigger repaint
             img_forest.Invalidate();
 
-            //turn off timer when forest is done burning
-            if(!isForestBurning)
-            {
-                //MessageBox.Show("Burn complete!");
-                timer_burn.Enabled = false;
-            }
         }
     }
 }
