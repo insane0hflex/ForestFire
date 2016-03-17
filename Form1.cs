@@ -32,7 +32,8 @@ namespace ForestFire
         SolidBrush aliveTreeBrush = new SolidBrush(Color.Green);
         SolidBrush onFireTreeBrush = new SolidBrush(Color.Red);
 
-        private bool IsLeftColumnOnFire = true;
+        //if greater than 1 - sets the far left to burnt
+        private int timerIntervalCheck = 0;
 
         public Form1()
         {
@@ -76,6 +77,7 @@ namespace ForestFire
         private void btn_populateForest_Click(object sender, EventArgs e)
         {
             timer_burn.Enabled = false;
+            timerIntervalCheck = 0;
 
             //MessageBox.Show("Creating a new forest");
             ResetForest();
@@ -152,6 +154,10 @@ namespace ForestFire
                         {
                             forest[i, j] = Tree.Burnt;
                         }
+                        else if (i == 0 && timerIntervalCheck > 1)
+                        {
+                            forest[0, j] = Tree.Burnt;
+                        }
                     }
                     else if (forest[i,j] == Tree.Burnt)
                     {
@@ -190,6 +196,7 @@ namespace ForestFire
                         // burn right
                         if (i < (forest.GetLength(0)-1))
                         {
+
                             if(forest[i + 1, j] == Tree.Alive)
                             {
                                 forest[i + 1, j] = Tree.ToBurn;
@@ -278,6 +285,8 @@ namespace ForestFire
         {
 
             StartForestFire();
+
+            timerIntervalCheck++;
 
             //trigger repaint
             img_forest.Invalidate();

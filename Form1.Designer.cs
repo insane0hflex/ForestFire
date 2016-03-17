@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.img_forest = new System.Windows.Forms.PictureBox();
             this.btn_populateForest = new System.Windows.Forms.Button();
             this.num_forestDensity = new System.Windows.Forms.NumericUpDown();
@@ -57,7 +58,7 @@
             // 
             // btn_populateForest
             // 
-            this.btn_populateForest.Location = new System.Drawing.Point(12, 69);
+            this.btn_populateForest.Location = new System.Drawing.Point(12, 67);
             this.btn_populateForest.Name = "btn_populateForest";
             this.btn_populateForest.Size = new System.Drawing.Size(108, 23);
             this.btn_populateForest.TabIndex = 1;
@@ -205,6 +206,7 @@
             this.Controls.Add(this.num_forestDensity);
             this.Controls.Add(this.btn_populateForest);
             this.Controls.Add(this.img_forest);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Forest Fire Model";
             ((System.ComponentModel.ISupportInitialize)(this.img_forest)).EndInit();
