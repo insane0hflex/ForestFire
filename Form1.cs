@@ -33,6 +33,7 @@ namespace ForestFire
         SolidBrush onFireTreeBrush = new SolidBrush(Color.Red);
 
         //if greater than 1 - sets the far left to burnt
+        //this is kinda a bug/workaround to set that far left column to burnt because before those trees would stay Tree.OnFire
         private int timerIntervalCheck = 0;
 
         public Form1()
@@ -42,13 +43,13 @@ namespace ForestFire
             //set some controls to a default value
             num_forestDensity.Value = Convert.ToDecimal(0.5);
             numeric_timeToBurn.Value = 20; //20ms default
-            numeric_windPercentage.Value = Convert.ToDecimal(0.25);
+            numeric_windPercentage.Value = Convert.ToDecimal(0.50);
 
         }
 
 
         /// <summary>
-        /// Populate the forest array by setting a cell to true if is below the indicated forest population density
+        /// Populate the forest by setting a cell to Tree.Alive if is below the indicated forest population density
         /// </summary>
         private void PopulateForestWithTrees()
         {
@@ -56,10 +57,9 @@ namespace ForestFire
 
             double forestDensity = Convert.ToDouble(num_forestDensity.Value);
 
-            //populate the forest with trees. a tree bit is set to true if it is less than a random double value
+            //populate the forest with trees
             for (int i = 0; i < forest.GetLength(0); i++)
             {
-
                 for (int j = 0; j < forest.GetLength(1); j++)
                 {
                     if (random.NextDouble() < forestDensity)
@@ -106,8 +106,6 @@ namespace ForestFire
         /// <summary>
         /// On an Invalidate event - triggers the repaint
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void img_forest_Paint(object sender, PaintEventArgs e)
         {
             //graphics = (Graphics)img_forest.Image;
@@ -172,9 +170,9 @@ namespace ForestFire
 
         /// <summary>
         /// Starts the forest burning and is used by the timer to control the forest burning time increments
+        /// if the tree is on fire, and the adjance tree is alive, it is set to Tree.ToBurn - which means this
+        /// next tree will be flagged to be Tree.OnFire on next timer interval step
         /// </summary>
-        /// <returns>false if forest still has burnable trees.
-        /// true if forest is done burning</returns>
         private void StartForestFire()
         {
             for (int i = 0; i < forest.GetLength(0); i++)
@@ -246,7 +244,7 @@ namespace ForestFire
 
                             //see the next->next array element cell (+ 1 + 1 + 1)
                             //this if check makes sure we dont array out of bounds
-                            if (i < forest.GetLength(1) - 3)
+                            if (i < forest.GetLength(0) - 3)
                             {
                                 var windSetOnFire = new Random();
 
@@ -279,18 +277,20 @@ namespace ForestFire
 
         /// <summary>
         /// invoke the StartForestFire() method which starts the burn.
-        /// This timer invokes the StartForestFire() method and a repaint to the image
+        /// This timer invokes the StartForestFire() method and then does a repaint to the image
+        /// timerIntervalCheck is used to flag the most left-side column to burnt if the tree in that cell was on fire
         /// </summary>
         private void timer_burn_Tick(object sender, EventArgs e)
         {
-
             StartForestFire();
-
             timerIntervalCheck++;
 
             //trigger repaint
             img_forest.Invalidate();
-
         }
+        
+        
+        
+        
     }
 }
