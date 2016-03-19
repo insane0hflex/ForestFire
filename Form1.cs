@@ -24,6 +24,7 @@ namespace ForestFire
             Burnt 
         }
 
+        //the forest of trees
         private Tree[,] forest = new Tree[150, 150];
 
         //brushes to color the trees (rectangles)
@@ -33,8 +34,11 @@ namespace ForestFire
         SolidBrush onFireTreeBrush = new SolidBrush(Color.Red);
 
         //if greater than 1 - sets the far left to burnt
-        //this is kinda a bug/workaround to set that far left column to burnt because before those trees would stay Tree.OnFire
-        private int timerIntervalCheck = 0;
+        //this is kinda a hacky workaround to set that far left column to burnt because before those trees would stay Tree.OnFire (colored red)
+        //after the burn would start
+        private int timerBurnIntervalCount = 0;
+
+
 
         public Form1()
         {
@@ -42,7 +46,10 @@ namespace ForestFire
 
             //set some controls to a default value
             num_forestDensity.Value = Convert.ToDecimal(0.5);
-            numeric_timeToBurn.Value = 20; //20ms default
+
+            //20ms default
+            numeric_timeToBurn.Value = 20;
+
             numeric_windPercentage.Value = Convert.ToDecimal(0.50);
 
         }
@@ -77,7 +84,7 @@ namespace ForestFire
         private void btn_populateForest_Click(object sender, EventArgs e)
         {
             timer_burn.Enabled = false;
-            timerIntervalCheck = 0;
+            timerBurnIntervalCount = 0;
 
             //MessageBox.Show("Creating a new forest");
             ResetForest();
@@ -105,12 +112,14 @@ namespace ForestFire
 
         /// <summary>
         /// On an Invalidate event - triggers the repaint
+        /// This goes through the forest 2D array and draws a rectangle based on the Tree type
+        /// Red if Tree.OnFire
+        /// Green if Tree.Alive
+        /// Black if Tree.Burnt
         /// </summary>
         private void img_forest_Paint(object sender, PaintEventArgs e)
         {
-            //graphics = (Graphics)img_forest.Image;
 
-            //color pixels green for cells that have trees
             for (int i = 0; i < forest.GetLength(0); i++)
             {
 
@@ -140,19 +149,14 @@ namespace ForestFire
                     }
                     else if (forest[i, j] == Tree.OnFire)
                     {
-                        //e.Graphics.FillRectangle(burntTreeBrush, tree);
                         e.Graphics.FillRectangle(onFireTreeBrush, tree);
-                        //forest[i, j] = Tree.Burnt;
-
-                        //TODO: left side still remains as "burning"
-                        //maybe make a bool or timer.interval > 1 or something to set these left column trees to burnt
 
                         //If the tree was on fire - set it to "Tree.Burnt" so that the tree is burnt and colored black next timestep
                         if (i > 0)
                         {
                             forest[i, j] = Tree.Burnt;
                         }
-                        else if (i == 0 && timerIntervalCheck > 1)
+                        else if (i == 0 && timerBurnIntervalCount > 1)
                         {
                             forest[0, j] = Tree.Burnt;
                         }
@@ -167,6 +171,8 @@ namespace ForestFire
 
             }
         }
+
+
 
         /// <summary>
         /// Starts the forest burning and is used by the timer to control the forest burning time increments
@@ -283,7 +289,8 @@ namespace ForestFire
         private void timer_burn_Tick(object sender, EventArgs e)
         {
             StartForestFire();
-            timerIntervalCheck++;
+
+            timerBurnIntervalCount++;
 
             //trigger repaint
             img_forest.Invalidate();
