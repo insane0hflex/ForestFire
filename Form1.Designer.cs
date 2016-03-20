@@ -195,7 +195,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 630);
+            this.ClientSize = new System.Drawing.Size(764, 641);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numeric_windPercentage);
             this.Controls.Add(this.label3);

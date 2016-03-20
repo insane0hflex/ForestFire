@@ -15,7 +15,7 @@ namespace ForestFire
 
 
         //Tree "datatype"
-        public enum Tree
+        private enum Tree
         {
             None = 0,
             Alive,
@@ -78,22 +78,6 @@ namespace ForestFire
         }
 
 
-        /// <summary>
-        /// Populate Forest button click event
-        /// </summary>
-        private void btn_populateForest_Click(object sender, EventArgs e)
-        {
-            timer_burn.Enabled = false;
-            timerBurnIntervalCount = 0;
-
-            //MessageBox.Show("Creating a new forest");
-            ResetForest();
-            PopulateForestWithTrees();
-
-            // pictureBox Invalidate() triggers the paint method
-            img_forest.Invalidate();
-        }
-
 
         /// <summary>
         /// resets the forest Tree array to be all no trees (black)
@@ -107,6 +91,23 @@ namespace ForestFire
                     forest[i, j] = Tree.None;
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Populate Forest button click event
+        /// </summary>
+        private void btn_populateForest_Click(object sender, EventArgs e)
+        {
+            timer_burn.Enabled = false;
+            timerBurnIntervalCount = 0;
+
+            //MessageBox.Show("Creating a new forest");
+            ResetForest();
+            PopulateForestWithTrees();
+
+            //trigger a repaint - invokes img_forest_Paint()
+            img_forest.Invalidate();
         }
 
 
@@ -151,8 +152,8 @@ namespace ForestFire
                     {
                         e.Graphics.FillRectangle(onFireTreeBrush, tree);
 
-                        //If the tree was on fire - set it to "Tree.Burnt" so that the tree is burnt and colored black next timestep
-                        if (i > 0)
+                        //If the tree was on fire - set it to "Tree.Burnt" so that the tree is burnt and colored black next time
+                        if (i > 0) //greater than first column
                         {
                             forest[i, j] = Tree.Burnt;
                         }
@@ -176,8 +177,8 @@ namespace ForestFire
 
         /// <summary>
         /// Starts the forest burning and is used by the timer to control the forest burning time increments
-        /// if the tree is on fire, and the adjance tree is alive, it is set to Tree.ToBurn - which means this
-        /// next tree will be flagged to be Tree.OnFire on next timer interval step
+        /// if the tree is on fire, and the adjancent tree is Tree.Alive, it is set to Tree.ToBurn
+        /// which means this next tree will be flagged to be Tree.OnFire on next timer interval step
         /// </summary>
         private void StartForestFire()
         {
@@ -188,7 +189,7 @@ namespace ForestFire
                     if(forest[i,j] == Tree.OnFire)
                     {
                         
-                        //burn up
+                        //burn north
                         if(j > 0)
                         {
                             if(forest[i, j - 1] == Tree.Alive)
@@ -197,7 +198,7 @@ namespace ForestFire
                             }
                         }
 
-                        // burn right
+                        //burn east
                         if (i < (forest.GetLength(0)-1))
                         {
 
@@ -207,7 +208,7 @@ namespace ForestFire
                             }
                         }
 
-                        //burn down
+                        //burn south
                         if (j < (forest.GetLength(1)-1))
                         {
                             if (forest[i, j + 1] == Tree.Alive)
@@ -217,7 +218,7 @@ namespace ForestFire
                         }
 
 
-                        //burn left
+                        //burn west
                         if (i > 0) //dont array out of bounds
                         {
                             if (forest[i - 1, j] == Tree.Alive)
@@ -226,14 +227,15 @@ namespace ForestFire
                             }
                         }
 
-                        //Wind check
+                        //Wind check feature
+                        //for burning to the east/right
                         if(chkbx_wind.Checked)
                         {
                             //get numeric up_down wind value
                             double windPercentage = Convert.ToDouble(numeric_windPercentage.Value);
 
                             //see the next array element/cell
-                            //this if check makes sure we dont array out of bounds
+                            //this -2 check makes sure we dont array out of bounds
                             if (i < forest.GetLength(0) - 2)
                             {
                                 var windSetOnFire = new Random();
@@ -249,7 +251,7 @@ namespace ForestFire
                             }
 
                             //see the next->next array element cell (+ 1 + 1 + 1)
-                            //this if check makes sure we dont array out of bounds
+                            //this -3 check makes sure we dont array out of bounds
                             if (i < forest.GetLength(0) - 3)
                             {
                                 var windSetOnFire = new Random();
@@ -295,9 +297,7 @@ namespace ForestFire
             //trigger repaint
             img_forest.Invalidate();
         }
-        
-        
-        
-        
+
+
     }
 }
